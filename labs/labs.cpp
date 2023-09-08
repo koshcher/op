@@ -29,7 +29,7 @@ float num_from_console(std::string message) {
 
 // X = (1 - A) / (1 + A) + | (B - 2D) / C^2 |
 void task_1() {
-    std::cout << "Task 1: count X = (1 - A) / (1 + A) + | (B - 2D) / C^2 |" << std::endl;
+    std::cout << "Task 1: count X = (1 - A) / (1 + A) + |(B - 2D) / C^2|" << std::endl;
 
     float a = num_from_console("Enter number A: ");
     float b = num_from_console("Enter number B: ");
