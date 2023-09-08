@@ -3,5 +3,5 @@
 
 void main()
 {
-    run_lab_1();
+    runLab1();
 }
