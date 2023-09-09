@@ -41,7 +41,7 @@ jobs:
         uses: actions/configure-pages@v3
 
       - name: Build with VitePress
-        # or pnpm docs:build / yarn docs:build / bun run docs:build
+        working-directory: site
         run: |
           npm install
           npm run build 
