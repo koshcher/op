@@ -44,8 +44,8 @@ jobs:
         working-directory: site
         run: |
           npm install
-          npm run build 
-          touch site/.vitepress/dist/.nojekyll
+          npm run build
+        # touch site/.vitepress/dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
