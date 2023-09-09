@@ -1,0 +1,29 @@
+{
+  "name": "op",
+  "version": "1.0.0",
+  "description": "Завдання з основ програмування Кощей Романа ІПЗ-12",
+  "main": " ",
+  "scripts": {
+    "test": " ",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koshcher/op.git"
+  },
+  "keywords": [
+    "c++"
+  ],
+  "author": "Roman Koshchei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/koshcher/op/issues"
+  },
+  "homepage": "https://github.com/koshcher/op#readme",
+  "dependencies": {
+    "vitepress": "^1.0.0-rc.10",
+    "vue": "^3.3.4"
+  }
+}
