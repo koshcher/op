@@ -16,9 +16,10 @@ I prefer keep it simple while I can.
 namespace lab1 {
     const double PI = 3.141592653589793238463;
 
-    // X = (1 - A) / (1 + A) + | (B - 2D) / C^2 |
     void task1() {
-        std::cout << "Task 1: count X = (1 - A) / (1 + A) + |(B - 2D) / C^2|" << std::endl;
+        std::cout
+            << "Task 1: count X = (1 - A) / (1 + A) + |(B - 2D) / C^2|"
+            << std::endl;
 
         float a = numFromConsole("Enter number A: ");
         float b = numFromConsole("Enter number B: ");
@@ -43,11 +44,8 @@ namespace lab1 {
     {
         std::cout << "Lab 1 by Roman Koshchei (variant 8)" << std::endl;
         std::cout << "-----------------------------------" << std::endl;
-
         task1();
-
         std::cout << "-----------------------------------" << std::endl;
-
         task2();
     }
 }

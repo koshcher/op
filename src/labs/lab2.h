@@ -5,17 +5,17 @@
 #include "shared.h"
 
 namespace lab2 {
+    /*
+        111: 3 same, 0 different
+        110: 2 same, 1 different
+        123: 0 same, 3 different
+    */
     int sameCount(const double& a, const double& b, const double& c) {
         if (a == b && a == c) { return 3; }
         if (a == b || a == c || b == c) { return 2; }
         return 0;
     }
 
-    /*
-        111: 3 same, 0 different
-        110: 2 same, 1 different
-        123: 0 same, 3 different
-    */
     void task2() {
         const double a = numFromConsole("Enter first number: ");
         const double b = numFromConsole("Enter second number: ");
@@ -24,7 +24,9 @@ namespace lab2 {
         const int same = sameCount(a, b, c);
         const int different = 3 - same;
 
-        std::cout << "Count of same numbers: " << same << "; Count of different numbers: " << different << std::endl;
+        std::cout 
+            << "Count of same numbers: " << same 
+            << "; Count of different numbers: " << different << std::endl;
     }
 
     double fx(const double& a, const double& b) {
@@ -46,11 +48,8 @@ namespace lab2 {
     void run() {
         std::cout << "Lab 2 by Roman Koshchei (variant 8)" << std::endl;
         std::cout << "-----------------------------------" << std::endl;
-
         task1();
-
         std::cout << "-----------------------------------" << std::endl;
-
         task2();
     }
 }

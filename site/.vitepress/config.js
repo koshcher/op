@@ -2,9 +2,11 @@ import { defineConfig } from "vitepress"
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Кощей Роман",
+  title: "Кощей Роман: ОП",
   description: "Завдання з основ програмування Кощей Романа ІПЗ-12",
+
   base: "/op/",
+  cleanUrls: true,
 
   themeConfig: {
     nav: [{ text: "Лабораторні", link: "/labs/1" }],

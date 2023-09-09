@@ -5,7 +5,7 @@ const md = await createMarkdownRenderer(
   config.srcDir,
   config.markdown,
   undefined,
-  // config.site.base ,
+  config.site.base,
   config.logger
 )
 
