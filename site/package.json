@@ -2,12 +2,11 @@
   "name": "op",
   "version": "1.0.0",
   "description": "Завдання з основ програмування Кощей Романа ІПЗ-12",
-  "main": " ",
+  "type": "module",
   "scripts": {
-    "test": " ",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   },
   "repository": {
     "type": "git",

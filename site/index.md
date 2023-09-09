@@ -1,25 +1,14 @@
----
-# https://vitepress.dev/reference/default-theme-home-page
-layout: home
+# Звіт про виконання лабораторних робіт з дисципліни "Основи програмування"
 
-hero:
-  name: "Кощей Роман Основи програмування"
-  text: "Завдання з основ програмування Кощей Романа ІПЗ-12"
-  tagline: My great project tagline
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+Київський національний університет імені Тараса Шевченка.
+Факультет інформаційних технологій.
 
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
----
+Виконав: **Кощей Роман Віталійович**
 
+- Студент 1 курсу ФІТ
+- Група ІПЗ-12
+
+Викладачі:
+
+- Ковалюк Тетяна Володимирівна
+- Жабська Єлизавета Олегівна

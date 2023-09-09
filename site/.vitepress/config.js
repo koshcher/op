@@ -4,9 +4,10 @@ import { defineConfig } from "vitepress"
 export default defineConfig({
   title: "Кощей Роман",
   description: "Завдання з основ програмування Кощей Романа ІПЗ-12",
+  base: "/op/",
+
   themeConfig: {
     nav: [{ text: "Лабораторні", link: "/labs/1" }],
-
     sidebar: [
       {
         text: "Лабораторні роботи",
