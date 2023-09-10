@@ -5,8 +5,8 @@
 void main()
 {
     try {
-        lab2::run();
-        // lab1::run();
+        lab1::run();
+        //lab2::run();
     }
     catch (...) {
         std::cout << "Unexpected error appeared";
