@@ -27,6 +27,10 @@ namespace lab1 {
         const double d = numFromConsole("Enter number D: ");
 
         const double x = ((1 - a) * c * pow(E, a)) / ((1 - b) * cos(d));
+        if (std::isinf(x)) {
+            std::cout << "Operation isn't correct." << std::endl;
+            return;
+        }
         std::cout << "X = " << x << std::endl;
     }
 
@@ -44,8 +48,7 @@ namespace lab1 {
     {
         std::cout << "Lab 1 by Roman Koshchei (variant 15)" << std::endl;
         std::cout << "-----------------------------------" << std::endl;
-        task1();
-        std::cout << "-----------------------------------" << std::endl;
-        task2();
+
+        select({ {"Task 1", task1},{"Task 2", task2} });
     }
 }
