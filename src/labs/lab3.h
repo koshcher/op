@@ -29,7 +29,9 @@ std::string fillSpace(const double& value, const int& size) {
     return str;
 }
 
-void showState(const int& x, const long& k, const double& internalSum, const double& externalSum) {
+void showState(
+    const int& x, const long& k, const double& internalSum, const double& externalSum
+) {
     std::cout
         << "| " << x << " | " << fillSpace(k, 15) << " | "
         << fillSpace(internalSum, 15) << " | "
@@ -42,9 +44,15 @@ void run() {
 
     const double accuracy = numFromConsole("Enter calculation accuracy (number): ");
 
-    std::cout << "|---|-----------------|-----------------|-----------------|" << std::endl;
-    std::cout << "| x | k               | internal sum    | external sum    |" << std::endl;
-    std::cout << "|---|-----------------|-----------------|-----------------|" << std::endl;
+    std::cout
+        << "|---|-----------------|-----------------|-----------------|"
+        << std::endl;
+    std::cout
+        << "| x | k               | internal sum    | external sum    |"
+        << std::endl;
+    std::cout
+        << "|---|-----------------|-----------------|-----------------|"
+        << std::endl;
 
     double externalSum = 0;
     for (int x = 1; x <= 5; ++x) {
@@ -66,6 +74,8 @@ void run() {
         showState(x, k - 1, internalSum, externalSum);
     }
 
-    std::cout << "|---|-----------------|-----------------|-----------------|" << std::endl;
+    std::cout
+        << "|---|-----------------|-----------------|-----------------|"
+        << std::endl;
 }
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shared.h"
+#include <optional>
 #include <iostream>
 #include <math.h>
 
@@ -48,8 +49,7 @@ void task2() {
     const double coin2 = numFromConsole("Enter weight of second coin: ");
     const double coin3 = numFromConsole("Enter weight of third coin: ");
 
-    if (!validInput(coin1, coin2, coin3))
-        return;
+    if (!validInput(coin1, coin2, coin3)) return;
 
     // only 1 weigh on scales is allowed by task
     const auto position = weighOnScales(coin1, coin2);
@@ -64,7 +64,7 @@ void task2() {
     }
 }
 
-std::optional<double> fx(const double& x) {
+std::optional<double> f(const double& x) {
     if (x == 0) return std::nullopt;
 
     if (x == 5) return x;
@@ -75,10 +75,15 @@ std::optional<double> fx(const double& x) {
 
 void task1() {
     const double x = numFromConsole("Enter argument x: ");
-    const auto result = fx(x);
+    const auto result = f(x);
 
     if (!result.has_value()) {
         std::cout << "Function doesn't have solution" << std::endl;
+        return;
+    }
+
+    if (isinf(result.value())) {
+        std::cout << "Result of function is infinity" << std::endl;
         return;
     }
 
