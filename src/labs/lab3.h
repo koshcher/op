@@ -5,14 +5,8 @@
 #include "shared.h"
 
 namespace lab3 {
-long factorial(const long& n) {
-    long num = 1;
-    for (long i = 1; i <= n; ++i) num *= i;
-    return num;
-}
-
-double fx(const long& k, const int& x) {
-    return (pow(-1, k) * (k + 1) * pow(x, k)) / factorial(k);
+double fx(const long& k, const int& x, const long& kFactorial) {
+    return (pow(-1, k) * (k + 1) * pow(x, k)) / kFactorial;
 }
 
 template <typename T>
@@ -57,21 +51,22 @@ void run() {
     double externalSum = 0;
     for (int x = 1; x <= 5; ++x) {
         double internalSum = 0;
+
+        long factorial = 1;
         long k = 0;
         while (k <= accuracy) {
-            const double value = fx(k, x);
+            const double value = fx(k, x, factorial);
             if (isinf(value)) break;
 
             const double newInternalSum = internalSum + value;
             if (isinf(newInternalSum)) break;
 
             internalSum = newInternalSum;
+            externalSum += value;
             showState(x, k, internalSum, externalSum);
             k += 1;
+            factorial *= k;
         }
-
-        externalSum += internalSum;
-        showState(x, k - 1, internalSum, externalSum);
     }
 
     std::cout
