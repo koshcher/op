@@ -24,5 +24,8 @@
   "dependencies": {
     "vitepress": "^1.0.0-rc.10",
     "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2"
   }
 }

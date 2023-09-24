@@ -8,6 +8,10 @@ export default defineConfig({
   base: "/op/",
   cleanUrls: true,
 
+  markdown: {
+    math: true,
+  },
+
   themeConfig: {
     nav: [{ text: "Лабораторні", link: "/labs/1" }],
     sidebar: [
