@@ -179,6 +179,14 @@ std::optional<long double> newtonBinomialPower(
         bPow = bPow / b;
 
         const unsigned long long newNMinusKFactorial = nMinusKFactorial * 1.0 / (n - k + 1.0);
+
+        /*f (newNMinusKFactorial < 1) {
+            nMinusKFactorial = 1;
+        }
+        else {
+            nMinusKFactorial = newNMinusKFactorial;
+        }*/
+
         nMinusKFactorial = newNMinusKFactorial < 1 ? 1 : newNMinusKFactorial;
     }
 
