@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LAB1
+#define LAB1
 
 #include "shared.h"
 #include <iostream>
@@ -49,3 +50,5 @@ void run() {
     shared::select({ { "Task 1", task1 }, { "Task 2", task2 } });
 }
 }
+
+#endif

@@ -128,7 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lab5.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +135,7 @@
     <ClInclude Include="lab1.h" />
     <ClInclude Include="lab3.h" />
     <ClInclude Include="lab4.h" />
+    <ClInclude Include="lab5.h" />
     <ClInclude Include="shared.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

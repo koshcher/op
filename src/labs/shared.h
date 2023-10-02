@@ -1,9 +1,11 @@
-#pragma once
+#ifndef SHARED
+#define SHARED
 
 #include <functional>
 #include <iostream>
 #include <optional>
 #include <string>
+#include <sstream>
 #include <vector>
 
 /*
@@ -86,4 +88,20 @@ std::string fillSpace(const std::string& value, const int& size) {
     while (str.size() < size) str += " ";
     return str;
 }
+
+/// <summary>
+/// Calculates factorial of number. If factorial is too large
+/// to put into unsigned long long, then it will return nullopt.
+/// </summary>
+std::optional<unsigned long long> factorial(const long& number) noexcept {
+    unsigned long long result = 1;
+    for (long i = 2; i <= number; i += 1) {
+        // Check for overflow of result
+        if (result > ULLONG_MAX / i) return std::nullopt;
+        result *= i;
+    }
+    return result;
 }
+}
+
+#endif

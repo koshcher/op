@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LAB4
+#define LAB4
 
 #include <iostream>
 #include "shared.h"
@@ -112,20 +113,6 @@ void task1() {
 }
 
 /// <summary>
-/// Calculates factorial of number. If factorial is too large
-/// to put into unsigned long long, then it will return nullopt.
-/// </summary>
-std::optional<unsigned long long> factorial(const long& number) noexcept {
-    unsigned long long result = 1;
-    for (long i = 2; i <= number; i += 1) {
-        // Check for overflow of result
-        if (result > ULLONG_MAX / i) return std::nullopt;
-        result *= i;
-    }
-    return result;
-}
-
-/// <summary>
 /// Calculate binomial power with standard functions and recalculations each time.
 /// Used to check correctness of newtonBinomialPower.
 /// </summary>
@@ -134,13 +121,13 @@ std::optional<long double> slowBinomialPower(
 ) {
     long double result = 0;
     for (long k = 0; k <= n; k += 1) {
-        const auto nFactorial = factorial(n);
+        const auto nFactorial = shared::factorial(n);
         if (!nFactorial.has_value()) return std::nullopt;
 
-        const auto kFactorial = factorial(k);
+        const auto kFactorial = shared::factorial(k);
         if (!kFactorial.has_value()) return std::nullopt;
 
-        const auto nMinusKFactorial = factorial(n - k);
+        const auto nMinusKFactorial = shared::factorial(n - k);
         if (!nMinusKFactorial.has_value()) return std::nullopt;
 
         const long double binomialCoefficient = (
@@ -158,7 +145,7 @@ std::optional<long double> newtonBinomialPower(
   const double& a, const double& b, const long& n
 ) {
     // should get it anyway at the start
-    const auto nFactorial = factorial(n);
+    const auto nFactorial = shared::factorial(n);
     if (!nFactorial.has_value()) return std::nullopt;
     long double result = 0;
 
@@ -168,7 +155,7 @@ std::optional<long double> newtonBinomialPower(
     unsigned long long nMinusKFactorial = nFactorial.value();
 
     for (long k = 0; k <= n;) {
-        const long  double binomialCoefficient = (
+        const long double binomialCoefficient = (
           nFactorial.value() * 1.0 / (kFactorial * nMinusKFactorial)
         );
         result += binomialCoefficient * aPow * bPow;
@@ -236,3 +223,5 @@ void run() {
     shared::select({ {"Task 1", task1}, {"Task 2", task2} });
 }
 }
+
+#endif

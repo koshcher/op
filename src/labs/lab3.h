@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LAB3
+#define LAB3
 
 #include <iostream>
 #include <sstream>
@@ -60,3 +61,5 @@ void run() {
         << std::endl;
 }
 }
+
+#endif
