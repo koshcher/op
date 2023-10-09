@@ -65,9 +65,13 @@ CountResult countSituationsRecursive(const long& total, const long& take) {
             return { operations, std::nullopt };
         }
 
+        const auto& total = totalFactorial.count.value();
+        const auto& take = takeFactorial.count.value();
+        const auto& totalMinusTake = totalMinusTakeFactorial.count.value();
+
         return {
             operations,
-            totalFactorial.count.value() / (takeFactorial.count.value() * totalMinusTakeFactorial.count.value())
+            total / (take * totalMinusTake)
         };
     }
     catch (...) {
@@ -92,23 +96,33 @@ void countSituations(
         std::cout << "Number is too big to calculate with standard functionality" << std::endl;
         return;
     }
+    const auto& winningSituationsCount = winningSituations.count.value();
+
     if (loosingCount < ticketsToTakeCount - 2) {
         std::cout << "Can't take only 2 winning" << std::endl;
     }
     else {
         const auto loosingSituations = strategy(loosingCount, ticketsToTakeCount - 2);
         if (!loosingSituations.count.has_value()) {
-            std::cout << "Number is too big to calculate with standard functionality" << std::endl;
+            std::cout
+                << "Number is too big to calculate with standard functionality"
+                << std::endl;
             return;
         }
 
-        if (ULLONG_MAX / loosingSituations.count.value() < winningSituations.count.value()) {
-            std::cout << "Number is too big to calculate with standard functionality" << std::endl;
+        if (ULLONG_MAX / loosingSituations.count.value() < winningSituationsCount) {
+            std::cout
+                << "Number is too big to calculate with standard functionality"
+                << std::endl;
             return;
         }
-        const unsigned long long only2Winning = winningSituations.count.value() * loosingSituations.count.value();
-        std::cout << "Situations when only 2 tickets are winning: " << only2Winning << std::endl;
-        std::cout << "Operations count: " << winningSituations.operations + loosingSituations.operations << std::endl;
+        const auto only2Winning = winningSituationsCount * loosingSituations.count.value();
+        std::cout
+            << "Situations when only 2 tickets are winning: "
+            << only2Winning << std::endl;
+        std::cout
+            << "Operations count: "
+            << winningSituations.operations + loosingSituations.operations << std::endl;
     }
 
     // at least 2 winning
@@ -118,26 +132,34 @@ void countSituations(
         return;
     }
 
-    if (ULLONG_MAX / takingSituations.count.value() < winningSituations.count.value()) {
+    if (ULLONG_MAX / takingSituations.count.value() < winningSituationsCount) {
         std::cout << "Number is too big to calculate with standard functionality" << std::endl;
         return;
     }
-    const unsigned long long atLeast2Winning = winningSituations.count.value() * takingSituations.count.value();
-    std::cout << "Situations when at least 2 tickets are winning: " << atLeast2Winning << std::endl;
-    std::cout << "Operations count: " << winningSituations.operations + takingSituations.operations << std::endl;
+    const auto atLeast2Winning = winningSituationsCount * takingSituations.count.value();
+    std::cout
+        << "Situations when at least 2 tickets are winning: "
+        << atLeast2Winning << std::endl;
+    std::cout
+        << "Operations count: "
+        << winningSituations.operations + takingSituations.operations << std::endl;
 }
 
 void task1() {
     // m = count of winning tickets
     const long mCountOfItems = lround(shared::numFromConsole("Enter count of items (m): "));
     // n >= m
-    const long nTotalTicketsCount = lround(shared::numFromConsole("Enter total count of tickets (n): "));
+    const long nTotalTicketsCount = lround(
+        shared::numFromConsole("Enter total count of tickets (n): ")
+    );
     if (nTotalTicketsCount < mCountOfItems) {
         std::cout << "All tickets are winning" << std::endl;
         return;
     }
 
-    const long kTicketsToTakeCount = lround(shared::numFromConsole("Enter count of tickets to take (k): "));
+    const long kTicketsToTakeCount = lround(
+        shared::numFromConsole("Enter count of tickets to take (k): ")
+    );
     if (kTicketsToTakeCount > nTotalTicketsCount) {
         std::cout << "You can't take more tickets than exist." << std::endl;
     }
@@ -145,18 +167,49 @@ void task1() {
     std::cout << shared::LINE_SEPARATOR << std::endl;
 
     std::cout << "Loop strategy:" << std::endl;
-    countSituations(countSituationsLoop, mCountOfItems, nTotalTicketsCount, kTicketsToTakeCount);
+    countSituations(
+        countSituationsLoop, mCountOfItems,
+        nTotalTicketsCount, kTicketsToTakeCount
+    );
 
     std::cout << shared::LINE_SEPARATOR << std::endl;
 
     std::cout << "Recursive strategy:" << std::endl;
-    countSituations(countSituationsRecursive, mCountOfItems, nTotalTicketsCount, kTicketsToTakeCount);
+    countSituations(
+        countSituationsRecursive, mCountOfItems,
+        nTotalTicketsCount, kTicketsToTakeCount
+    );
 
     std::cout << shared::LINE_SEPARATOR << std::endl;
 }
 
+struct ConsistencyItem {
+    long num;
+    long count;
+};
+
+ConsistencyItem showMonotonousConsistency(const long& count) {
+    if (count <= 0) return { 1, 1 };
+
+    auto item = showMonotonousConsistency(count - 1);
+    if (item.num == item.count) {
+        std::cout << item.num << " ";
+        return { item.num + 1, 1 };
+    }
+
+    std::cout << item.num << " ";
+    return { item.num, item.count + 1 };
+}
+
 void task2() {
-    std::cout << "Not implemented" << std::endl;
+    const long num = lround(shared::numFromConsole("Enter natural number (> 0): "));
+    if (num <= 0) {
+        std::cout << "Number " << num << " isn't natural." << std::endl;
+        return;
+    }
+
+    showMonotonousConsistency(num);
+    std::cout << std::endl;
 }
 
 void run() {
