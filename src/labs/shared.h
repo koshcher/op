@@ -45,6 +45,17 @@ double numFromConsole(std::string message) {
     return num.value();
 }
 
+int intFromConsole(std::string message) {
+    long num = lround(shared::numFromConsole(message));
+    while (num > INT_MAX || num < INT_MIN) {
+        std::cout
+            << "Number is too large. Maximum allowed number is: " << INT_MAX
+            << ". Minimum allowed number is: " << INT_MIN << std::endl;
+        num = lround(shared::numFromConsole(message));
+    }
+    return static_cast<int>(num);
+}
+
 void select(
   const std::vector<std::pair<std::string, std::function<void()>>>& options) {
     if (options.size() == 0)
