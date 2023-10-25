@@ -6,7 +6,7 @@
 namespace lab6 {
 struct NumArray {
     std::unique_ptr<int[]> data;
-    int count;
+    int count = 0;
 };
 
 NumArray generateNumArray(const int& count) {
@@ -43,13 +43,17 @@ void printNumArray(const NumArray& arr) {
 }
 
 std::optional<NumArray> createNumArray() {
-    const long longCount = lround(shared::numFromConsole("Enter number of elements for array (>= 0): "));
+    const long longCount = lround(
+        shared::numFromConsole("Enter number of elements for array (>= 0): ")
+    );
     if (longCount <= 0) {
         std::cout << "Number of elements can't be less or equal 0" << std::endl;
         return std::nullopt;
     }
     else if (longCount > INT_MAX) {
-        std::cout << "Number of elements is too large. Maximum allowed number is: " << INT_MAX << std::endl;
+        std::cout
+            << "Number of elements is too large. Maximum allowed number is: "
+            << INT_MAX << std::endl;
         return std::nullopt;
     }
 
@@ -223,8 +227,8 @@ void task3() {
     const int& a0 = arr.data[0];
     const int& aN = arr.data[arr.count - 1];
 
-    int c = a0;
-    int b = aN;
+    int c = a0 < 0 ? -1 * a0 : a0;
+    int b = aN < 0 ? -1 * aN : aN;
 
     if (arr.count > 1) {
         int maxOnePreLast = arr.data[1];
@@ -249,7 +253,9 @@ void task3() {
     int aNModule = aN < 0 ? -1 * aN : aN;
     double right = (c + aNModule) * 1.0 / aNModule;
 
-    std::cout << "Interval of solution for problem:" << left << " <= |x| <= " << right << std::endl;
+    std::cout
+        << "Interval of solution for problem:"
+        << left << " <= |x| <= " << right << std::endl;
 }
 
 void run() {
