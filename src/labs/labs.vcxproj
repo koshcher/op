@@ -137,6 +137,7 @@
     <ClInclude Include="lab4.h" />
     <ClInclude Include="lab5.h" />
     <ClInclude Include="lab6.h" />
+    <ClInclude Include="lab7.h" />
     <ClInclude Include="shared.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

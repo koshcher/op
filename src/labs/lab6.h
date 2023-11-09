@@ -22,15 +22,7 @@ NumArray enterFromKeyboardNumArray(const int& count) {
     NumArray arr = { std::make_unique<int[]>(count), count };
 
     for (int i = 0; i < arr.count; i += 1) {
-        long longNumber = lround(shared::numFromConsole("Enter number: "));
-        while (longNumber > INT_MAX || longNumber < INT_MIN) {
-            std::cout
-                << "Number is too large. Maximum allowed number is: " << INT_MAX
-                << ". Minimum allowed number is: " << INT_MIN << std::endl;
-            longNumber = lround(shared::numFromConsole("Enter number: "));
-        }
-
-        arr.data[i] = static_cast<int>(longNumber);
+        arr.data[i] = shared::intFromConsole("Enter number: ");
     }
     return arr;
 }
