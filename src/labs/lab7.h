@@ -13,7 +13,9 @@ struct Matrix {
 /// Allocates memory for matrix. For rows and for cols.
 /// </summary>
 Matrix makeMatrix(const int& rowsCount, const int& colsCount) {
-    Matrix matrix = { std::make_unique<std::unique_ptr<int[]>[]>(rowsCount), rowsCount, colsCount };
+    Matrix matrix = {
+        std::make_unique<std::unique_ptr<int[]>[]>(rowsCount), rowsCount, colsCount
+    };
     for (int i = 0; i < rowsCount; ++i) {
         matrix.data[i] = std::make_unique<int[]>(colsCount);
     }
@@ -129,8 +131,13 @@ Sums countColSums(const Matrix& matrix) {
     return sums;
 }
 
-Matrix deleteZeroRowColFromMatrix(const Matrix& source, const Sums& rowSums, const Sums& colSums) {
-    Matrix newMatrix = makeMatrix(source.rowsCount - rowSums.zeroCount, source.colsCount - colSums.zeroCount);
+Matrix deleteZeroRowColFromMatrix(
+    const Matrix& source, const Sums& rowSums, const Sums& colSums
+) {
+    Matrix newMatrix = makeMatrix(
+        source.rowsCount - rowSums.zeroCount,
+        source.colsCount - colSums.zeroCount
+    );
     int newMatrixI = 0;
     for (int i = 0; i < source.rowsCount; ++i) {
         if (rowSums.list.data[i] == 0) continue;
@@ -209,7 +216,9 @@ void task1() {
             std::cout << "There are not any negative number in a matrix" << std::endl;
         }
         else {
-            std::cout << "Largest negative number: " << largestNegative.value().value << std::endl;
+            std::cout
+                << "Largest negative number: "
+                << largestNegative.value().value << std::endl;
             std::cout
                 << "Position row index: " << largestNegative.value().row
                 << "  column index: " << largestNegative.value().col << std::endl;
@@ -224,20 +233,23 @@ void task1() {
     std::cout << shared::LINE_SEPARATOR << std::endl;
 }
 
-struct BoolMatrix {
+struct SquareBoolMatrix {
     std::unique_ptr<std::unique_ptr<bool[]>[]> data;
     int count;
 };
 
-BoolMatrix makeBoolMatrix(const int& count) {
-    BoolMatrix walls = BoolMatrix { std::make_unique<std::unique_ptr<bool[]>[]>(count), count };
+SquareBoolMatrix makeBoolMatrix(const int& count) {
+    SquareBoolMatrix walls = SquareBoolMatrix {
+        std::make_unique<std::unique_ptr<bool[]>[]>(count),
+        count
+    };
     for (int i = 0; i < count; i += 1) {
         walls.data[i] = std::make_unique<bool[]>(count);
     }
     return walls;
 }
 
-void printLabyrinth(const BoolMatrix& walls, const int& x, const int& y) {
+void printLabyrinth(const SquareBoolMatrix& walls, const int& x, const int& y) {
     for (int i = 0; i < walls.count; i += 1) {
         const std::unique_ptr<bool[]>& row = walls.data[i];
         for (int j = 0; j < walls.count; j += 1) {
@@ -248,72 +260,149 @@ void printLabyrinth(const BoolMatrix& walls, const int& x, const int& y) {
     }
 }
 
-bool isSafeToWalk(const BoolMatrix& walls, const BoolMatrix& visited, int x, int y) {
+bool isSafeToWalk(const SquareBoolMatrix& walls, const SquareBoolMatrix& visited, int x, int y) {
     bool inside = x >= 0 && x < walls.count && y >= 0 && y < walls.count;
     return inside && walls.data[y][x] == false && !visited.data[y][x];
 }
 
-bool isSafeToBreak(const BoolMatrix& walls, const BoolMatrix& visited, int x, int y) {
+bool isSafeToBreak(const SquareBoolMatrix& walls, const SquareBoolMatrix& visited, int x, int y) {
     bool inside = x >= 0 && x < walls.count && y >= 0 && y < walls.count;
     return inside && walls.data[y][x] == true && !visited.data[y][x];
 }
 
 const int POSSIBLE_MOVES_COUNT = 4;
-const std::pair<int, int> POSSIBLE_MOVES[POSSIBLE_MOVES_COUNT] = { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+const std::pair<int, int> POSSIBLE_MOVES[POSSIBLE_MOVES_COUNT] = {
+    {1, 0}, {0, 1}, {-1, 0}, {0, -1}
+};
 
 void findShortestPath(
-    const BoolMatrix& walls, const BoolMatrix& visited,
-    int i, int j, const int& x, const int& y,
-    int& minDist, const int& dist, const int& wallsToBreak
+    const SquareBoolMatrix& walls, const SquareBoolMatrix& visited,
+    int currentX, int currentY, const int& destinationX, const int& destinationY,
+    int& minMoves, const int& currentMoves, const int& wallsToBreak
 ) {
-    if (i == x && j == y) {
-        minDist = std::min(dist, minDist);
+    if (currentX == destinationX && currentY == destinationY) {
+        minMoves = minMoves < 0 ? currentMoves : std::min(currentMoves, minMoves);
         return;
     }
 
     // set (i, j) cell as visited
-    visited.data[j][i] = true;
+    visited.data[currentY][currentX] = true;
 
     for (int moveI = 0; moveI < POSSIBLE_MOVES_COUNT; moveI += 1) {
         const auto& move = POSSIBLE_MOVES[moveI];
-        const int newX = i + move.first;
-        const int newY = j + move.second;
+        const int newX = currentX + move.first;
+        const int newY = currentY + move.second;
 
         if (isSafeToWalk(walls, visited, newX, newY)) {
-            findShortestPath(walls, visited, newX, newY, x, y, minDist, dist + 1, wallsToBreak);
+            findShortestPath(
+                walls, visited, newX, newY, destinationX,
+                destinationY, minMoves, currentMoves + 1, wallsToBreak
+            );
         }
     }
 
     if (wallsToBreak > 0) {
         for (int moveI = 0; moveI < POSSIBLE_MOVES_COUNT; moveI += 1) {
             const auto& move = POSSIBLE_MOVES[moveI];
-            const int newX = i + move.first;
-            const int newY = j + move.second;
+            const int newX = currentX + move.first;
+            const int newY = currentY + move.second;
 
             if (isSafeToBreak(walls, visited, newX, newY)) {
-                findShortestPath(walls, visited, newX, newY, x, y, minDist, dist + 1, wallsToBreak - 1);
+                findShortestPath(
+                    walls, visited, newX, newY, destinationX,
+                    destinationY, minMoves, currentMoves + 1, wallsToBreak - 1
+                );
             }
         }
     }
 
     // backtrack: remove (i, j) from the visited matrix
-    visited.data[j][i] = false;
+    visited.data[currentY][currentX] = false;
 }
 
 // start = (0,0)
 int minMoves(
-    const BoolMatrix& walls, const int& destinationX,
+    const SquareBoolMatrix& walls, const int& destinationX,
     const int& destinationY, const int& wallsToBreak
 ) {
     if (walls.count == 0) return -1;
 
-    BoolMatrix visited = makeBoolMatrix(walls.count);
+    SquareBoolMatrix visited = makeBoolMatrix(walls.count);
 
-    int dist = INT_MAX;
-    findShortestPath(walls, visited, 0, 0, destinationX, destinationY, dist, 0, wallsToBreak);
+    int moves = -1;
+    findShortestPath(
+        walls, visited, 0, 0, destinationX, destinationY, moves, 0, wallsToBreak
+    );
+    return moves;
+}
 
-    if (dist != INT_MAX) return dist;
-    return -1;
+SquareBoolMatrix generateTestingLabyrinth() {
+    SquareBoolMatrix labyrinth = makeBoolMatrix(5);
+
+    const std::unique_ptr<bool[]>& row1 = labyrinth.data[0];
+    row1[0] = 0;
+    row1[1] = 0;
+    row1[2] = 0;
+    row1[3] = 0;
+    row1[4] = 0;
+
+    const std::unique_ptr<bool[]>& row2 = labyrinth.data[1];
+    row2[0] = 0;
+    row2[1] = 1;
+    row2[2] = 1;
+    row2[3] = 1;
+    row2[4] = 0;
+
+    const std::unique_ptr<bool[]>& row3 = labyrinth.data[2];
+    row3[0] = 0;
+    row3[1] = 1;
+    row3[2] = 0;
+    row3[3] = 0;
+    row3[4] = 0;
+
+    const std::unique_ptr<bool[]>& row4 = labyrinth.data[3];
+    row4[0] = 1;
+    row4[1] = 1;
+    row4[2] = 1;
+    row4[3] = 1;
+    row4[4] = 1;
+
+    const std::unique_ptr<bool[]>& row5 = labyrinth.data[4];
+    row5[0] = 1;
+    row5[1] = 0;
+    row5[2] = 1;
+    row5[3] = 1;
+    row5[4] = 0;
+
+    return labyrinth;
+}
+
+SquareBoolMatrix enterLabyrinth() {
+    int n = shared::intFromConsole("Enter number of cells (>1): ");
+    while (n <= 1) {
+        std::cout << "Number of cells must be more than 1." << std::endl;
+        n = shared::intFromConsole("Enter number of cells: ");
+    }
+
+    SquareBoolMatrix labyrinth = makeBoolMatrix(n);
+
+    std::cout << "Enter labyrinth structure. Each cell should have one of the next values:" << std::endl;
+    std::cout << "[0] - free space" << std::endl;
+    std::cout << "[1] - wall" << std::endl;
+
+    for (int i = 0; i < n; i += 1) {
+        std::unique_ptr<bool[]>& row = labyrinth.data[i];
+        std::cout << "Enter columns of the row " << i + 1 << std::endl;
+
+        for (int j = 0; j < n; j += 1) {
+            int wall = shared::intFromConsole("");
+            while (wall < 0 || wall > 1) {
+                wall = shared::intFromConsole("Value must be 0 or 1. Enter: ");
+            }
+            row[j] = wall == 1;
+        }
+    }
+    return labyrinth;
 }
 
 void task2() {
@@ -330,11 +419,15 @@ void task2() {
         (2, 5) = No way with breaking only 1 wall.
     */
 
-    int n = shared::intFromConsole("Enter number of cells (>1): ");
-    while (n <= 1) {
-        std::cout << "Number of cells must be more than 1." << std::endl;
-        n = shared::intFromConsole("Enter number of cells: ");
+    std::cout << "How do you want to create labyrinth:" << std::endl;
+    std::cout << "[0] - use testing labyrinth" << std::endl;
+    std::cout << "[1] - enter custom labyrinth" << std::endl;
+    int choise = shared::intFromConsole("Enter your choise: ");
+    while (choise < 0 || choise > 1) {
+        choise = shared::intFromConsole("Value must be 0 or 1. Enter: ");
     }
+
+    SquareBoolMatrix labyrinth = choise == 1 ? enterLabyrinth() : generateTestingLabyrinth();
 
     std::cout << "Define (P, Q) coordinates for traveler to go to." << std::endl;
     std::cout << "P is column like X, Q is row like Y." << std::endl;
@@ -355,25 +448,6 @@ void task2() {
         k = shared::intFromConsole("K must be > 0. Enter K: ");
     }
 
-    BoolMatrix labyrinth = makeBoolMatrix(n);
-
-    std::cout << "Enter labyrinth structure. Each cell should have one of the next values:" << std::endl;
-    std::cout << "[0] - free space" << std::endl;
-    std::cout << "[1] - wall" << std::endl;
-
-    for (int i = 0; i < n; i += 1) {
-        std::unique_ptr<bool[]>& row = labyrinth.data[i];
-        std::cout << "Enter columns of the row " << i + 1 << std::endl;
-
-        for (int j = 0; j < n; j += 1) {
-            int wall = shared::intFromConsole("");
-            while (wall < 0 || wall > 1) {
-                wall = shared::intFromConsole("Value must be 0 or 1. Enter: ");
-            }
-            row[j] = wall == 1;
-        }
-    }
-
     std::cout << "Labyrinth:" << std::endl;
     printLabyrinth(labyrinth, p, q);
     std::cout << "We are reaching: " << labyrinth.data[q][p] << std::endl;
@@ -385,6 +459,7 @@ void task2() {
     else {
         std::cout << "Minimum count of moves to reach destination is " << min << std::endl;
     }
+    std::cout << shared::LINE_SEPARATOR << std::endl;
 }
 
 void run() {
