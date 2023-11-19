@@ -14,7 +14,7 @@ NumArray makeNumArray(const int& count) {
     return NumArray { new int[count], count };
 }
 
-NumArray copNumArray(const NumArray& arr) {
+NumArray copyNumArray(const NumArray& arr) {
     NumArray newArr = makeNumArray(arr.count);
     for (int i = 0; i < arr.count; ++i) {
         newArr.data[i] = arr.data[i];
@@ -136,7 +136,7 @@ int countPerfectSquares(const int* arr, const int& count) {
     for (int i = 1; i < count; ++i) {
         const int sum = arr[i] + arr[i - 1];
 
-        for (int j = 1; j < sum / 2; ++j) {
+        for (int j = 1; j <= sum / 2; ++j) {
             if (j * j == sum) {
                 squareCount += 1;
             }
@@ -154,7 +154,7 @@ void run() {
     std::cout << shared::LINE_SEPARATOR << std::endl;
 
     int action = 0;
-    while (action >= 0) {
+    while (action >= 0 && action <= 5) {
         std::cout << "[0] - recreate array of triangular numbers" << std::endl;
         std::cout << "[1] - print current array" << std::endl;
         std::cout << "[2] - print history" << std::endl;
@@ -189,7 +189,7 @@ void run() {
         }
         else if (action == 5) {
             // need to create copy to keep history in a right shape
-            NumArray arrCopy = copNumArray(currentArray(history, historyCount));
+            NumArray arrCopy = copyNumArray(currentArray(history, historyCount));
             deleteMultiplesOf3(arrCopy.data, arrCopy.count);
             pushToHistory(history, historyCount, arrCopy);
             printNumArray(arrCopy.data, arrCopy.count);
