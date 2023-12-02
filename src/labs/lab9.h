@@ -260,7 +260,9 @@ void task1() {
         }
     }
     else if (action == 1) {
-        std::cout << "Enter position (symbol number) from where to check if symmetric" << std::endl;
+        std::cout
+            << "Enter position (symbol number) from where to check if symmetric"
+            << std::endl;
         int position = shared::intFromConsole("");
 
         const bool symmetric = isSymmetricRelativeToIndex(string, position - 1);
@@ -275,7 +277,9 @@ void task1() {
         std::cout << "Enter symbol from which to check if symmetric" << std::endl;
         char symbol = shared::charFromConsole();
 
-        const bool symmetric = isSymmetricRelativeToIndex(string, symbolIndex(string, symbol));
+        const bool symmetric = isSymmetricRelativeToIndex(
+            string, symbolIndex(string, symbol)
+        );
         if (symmetric) {
             std::cout << "String is symmetric" << std::endl;
         }
@@ -345,7 +349,10 @@ void showAnagrams(const StrArray& words, const StrArray& dict) {
         for (int j = 0; j < dict.size; j += 1) {
             const auto& dictWord = dict.data[j];
 
-            if (!isAnagram(strWord, dictWord) || areStrEquar(strWord, dictWord)) continue;
+            if (
+                !isAnagram(strWord, dictWord)
+                || areStrEquar(strWord, dictWord)
+            ) continue;
 
             if (!hasAnagram) {
                 printStr(strWord);
