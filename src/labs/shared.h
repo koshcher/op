@@ -45,6 +45,12 @@ double numFromConsole(std::string message) {
     return num.value();
 }
 
+char charFromConsole() {
+    char c;
+    std::cin.get(c);
+    return c;
+}
+
 int intFromConsole(std::string message) {
     long num = lround(shared::numFromConsole(message));
     while (num > INT_MAX || num < INT_MIN) {
@@ -54,6 +60,15 @@ int intFromConsole(std::string message) {
         num = lround(shared::numFromConsole(message));
     }
     return static_cast<int>(num);
+}
+
+int positiveIntFromConsole(std::string message) {
+    int num = intFromConsole(message);
+    while (num <= 0) {
+        std::cout << "Number must be positive (>0)" << std::endl;
+        num = intFromConsole(message);
+    }
+    return num;
 }
 
 void select(
