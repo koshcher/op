@@ -7,6 +7,7 @@
 #include "lab7.h"
 #include "lab8.h"
 #include "lab9.h"
+#include "lab10.h"
 #include "shared.h"
 #include <iostream>
 
@@ -17,7 +18,8 @@ int main() {
         shared::select({
             { "Lab 1", lab1::run }, { "Lab 2", lab2::run }, { "Lab 3", lab3::run },
             { "Lab 4", lab4::run }, { "Lab 5", lab5::run }, { "Lab 6", lab6::run },
-            { "Lab 7", lab7::run }, { "Lab 8", lab8::run }, { "Lab 9", lab9::run }
+            { "Lab 7", lab7::run }, { "Lab 8", lab8::run }, { "Lab 9", lab9::run },
+            { "Lab 10", lab10::run }
         });
     }
     catch (...) {

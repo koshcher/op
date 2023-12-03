@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <variant>
 
 /*
 
@@ -127,6 +128,135 @@ std::optional<unsigned long long> factorial(const long& number) noexcept {
         result *= i;
     }
     return result;
+}
+
+// STR
+struct Str {
+    std::unique_ptr<char[]> data;
+    int length;
+};
+
+Str makeStr(const int& length) {
+    Str str = Str { std::make_unique<char[]>(length), length };
+    for (int i = 0; i < length; i += 1) {
+        str.data[i] = '\0';
+    }
+    return str;
+}
+
+void expandStr(Str& str, const int& additionalLength) {
+    Str newStr = makeStr(str.length + additionalLength);
+    for (int i = 0; i < str.length; i += 1) {
+        newStr.data[i] = str.data[i];
+    }
+    str = std::move(newStr);
+}
+
+// remove unused memory
+void compressStr(Str& str) {
+    if (str.length <= 1) return;
+
+    int newLength = 1;
+    for (int i = 0; i < str.length; i += 1) {
+        if (str.data[i] == '\0') break;
+        newLength += 1;
+    }
+    if (newLength == str.length) return;
+
+    Str compressedStr = makeStr(newLength);
+    for (int i = 0; i < newLength; i += 1) {
+        compressedStr.data[i] = str.data[i];
+    }
+    str = std::move(compressedStr);
+}
+
+// -1 if char isn't found
+int symbolIndex(const Str& str, const char& symbol) {
+    for (int i = 0; i < str.length; i += 1) {
+        const auto& c = str.data[i];
+        if (c == '\0') break;
+        if (c == symbol) return i;
+    }
+    return -1;
+}
+
+void printlnStr(const Str& str) {
+    for (int i = 0; i < str.length; ++i) {
+        const auto& symbol = str.data[i];
+        if (symbol == '\0') break;
+        std::cout << symbol;
+    }
+    std::cout << std::endl;
+}
+
+void printStr(const Str& str) {
+    for (int i = 0; i < str.length; ++i) {
+        const auto& symbol = str.data[i];
+        if (symbol == '\0') break;
+        std::cout << symbol;
+    }
+}
+
+void printStr(const Str& str, const int& lineSize) {
+    for (int i = 0; i < str.length; ++i) {
+        const auto& symbol = str.data[i];
+        if (symbol == '\0') break;
+        std::cout << symbol;
+    }
+    for (int i = 0; i < (lineSize - str.length - 1); i += 1) {
+        std::cout << " ";
+    }
+}
+
+const int BUFFER_SIZE = 256;
+
+Str enterString() {
+    Str str = makeStr(BUFFER_SIZE);
+
+    char symbol;
+    int index = 0;
+
+    while (std::cin.get(symbol) && symbol != '\n') {
+        // last symbol mast remaint \0
+        if (index >= str.length - 1) {
+            expandStr(str, BUFFER_SIZE);
+        }
+
+        str.data[index] = symbol;
+        index += 1;
+    }
+    compressStr(str);
+    return str;
+}
+
+Str copyStr(const Str& str) {
+    Str newStr = makeStr(str.length);
+    for (int i = 0; i < str.length; i += 1) {
+        newStr.data[i] = str.data[i];
+    }
+    return newStr;
+}
+
+bool areStrEquar(const Str& str1, const Str& str2) {
+    if (str1.length != str2.length) return false;
+
+    for (int i = 0; i < str1.length; i += 1) {
+        if (str1.data[i] != str2.data[i]) return false;
+    }
+    return true;
+}
+
+// VARIANT
+
+// from https://stackoverflow.com/questions/64017982/c-equivalent-of-rust-enums
+
+template<class... Ts> struct overloaded: Ts... { using Ts::operator()...; };
+// explicit deduction guide (not needed as of C++20)
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
+template <typename Val, typename... Ts>
+auto match(const Val& val, Ts... ts) {
+    return std::visit(overloaded { ts... }, val);
 }
 }
 
