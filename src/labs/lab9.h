@@ -237,62 +237,62 @@ void task1() {
     std::cout << "Enter string: " << std::endl;
     Str string = enterString();
 
-    std::cout
-        << "Select action:" << std::endl
-        << "[0] longest sequence of the same characters in a row" << std::endl
-        << "[1] check if string is symmetrical relative to position" << std::endl
-        << "[2] check if string is symmetrical relative to symbol" << std::endl
-        << "[3] remove same characters stack string" << std::endl;
-
-    int action = shared::intFromConsole("");
-    if (action < 0 || action > 3) {
-        std::cout << "Option doesn't exist" << std::endl;
-    }
-
-    if (action == 0) {
-        const auto streak = longestIdenticalSymbolsStreak(string);
-        if (!streak.has_value()) {
-            std::cout << "String is empty" << std::endl;
-        }
-        else {
-            std::cout << "Longest streak: ";
-            printStreak(streak.value());
-        }
-    }
-    else if (action == 1) {
+    int action = 0;
+    while (action >= 0 && action <= 3) {
         std::cout
-            << "Enter position (symbol number) from where to check if symmetric"
-            << std::endl;
-        int position = shared::intFromConsole("");
+            << "Select action:" << std::endl
+            << "[0] longest sequence of the same characters in a row" << std::endl
+            << "[1] check if string is symmetrical relative to position" << std::endl
+            << "[2] check if string is symmetrical relative to symbol" << std::endl
+            << "[3] remove same characters stack string" << std::endl
+            << "[other] finish" << std::endl;
 
-        const bool symmetric = isSymmetricRelativeToIndex(string, position - 1);
-        if (symmetric) {
-            std::cout << "String is symmetric" << std::endl;
+        action = shared::intFromConsole("");
+
+        if (action == 0) {
+            const auto streak = longestIdenticalSymbolsStreak(string);
+            if (!streak.has_value()) {
+                std::cout << "String is empty" << std::endl;
+            }
+            else {
+                std::cout << "Longest streak: ";
+                printStreak(streak.value());
+            }
         }
-        else {
-            std::cout << "String is NOT symmetric" << std::endl;
+        else if (action == 1) {
+            std::cout
+                << "Enter position (symbol number) from where to check if symmetric"
+                << std::endl;
+            int position = shared::intFromConsole("");
+
+            const bool symmetric = isSymmetricRelativeToIndex(string, position - 1);
+            if (symmetric) {
+                std::cout << "String is symmetric" << std::endl;
+            }
+            else {
+                std::cout << "String is NOT symmetric" << std::endl;
+            }
+        }
+        else if (action == 2) {
+            std::cout << "Enter symbol from which to check if symmetric" << std::endl;
+            char symbol = shared::charFromConsole();
+
+            const bool symmetric = isSymmetricRelativeToIndex(
+                string, symbolIndex(string, symbol)
+            );
+            if (symmetric) {
+                std::cout << "String is symmetric" << std::endl;
+            }
+            else {
+                std::cout << "String is NOT symmetric" << std::endl;
+            }
+        }
+        else if (action == 3) {
+            removeSame(string);
+            std::cout << "New string without same characters in a row:" << std::endl;
+            printlnStr(string);
         }
     }
-    else if (action == 2) {
-        std::cout << "Enter symbol from which to check if symmetric" << std::endl;
-        char symbol = shared::charFromConsole();
-
-        const bool symmetric = isSymmetricRelativeToIndex(
-            string, symbolIndex(string, symbol)
-        );
-        if (symmetric) {
-            std::cout << "String is symmetric" << std::endl;
-        }
-        else {
-            std::cout << "String is NOT symmetric" << std::endl;
-        }
-    }
-    else if (action == 3) {
-        removeSame(string);
-        std::cout << "New string without same characters in a row:" << std::endl;
-        printlnStr(string);
-    }
-
     std::cout << shared::LINE_SEPARATOR << std::endl;
 }
 
